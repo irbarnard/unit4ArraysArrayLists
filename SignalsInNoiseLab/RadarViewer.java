@@ -1,5 +1,5 @@
 import javax.swing.JFrame;
-
+import java.util.Scanner;
 /**
  * Class that contains the main method for the program and creates the frame containing the component.
  * 
@@ -14,12 +14,28 @@ public class RadarViewer
      */
     public static void main(String[] args) throws InterruptedException
     {
-        // create the radar, set the monster location, and perform the initial scan
-        final int ROWS = 100;
-        final int COLS = 100;
-        Radar radar = new Radar(ROWS, COLS);
-        radar.setNoiseFraction(0.10);
-        radar.scan();
+       
+        //create the radar, set the monster location, and perform the initial scan
+        Scanner in = new Scanner(System.in);
+        
+        System.out.println("Please enter the amount of rows. ");
+        final int ROWS = in.nextInt();
+        System.out.println("Please enter the amount of columns. ");
+        final int COLS = in.nextInt();
+        System.out.println("Please enter the change in x. ");
+        final int DX = in.nextInt();
+        System.out.println("Please enter the change in y. ");
+        final int DY = in.nextInt();
+        System.out.println("Please enter the starting rows for the monster. ");
+        final int MONSTERR = in.nextInt();
+        System.out.println("Please enter the starting columns for the monster. ");
+        final int MONSTERC = in.nextInt();
+        System.out.println("Please enter the noise fraction. ");
+        double NOIZE = in.nextDouble();
+        
+        Radar radar = new Radar(ROWS, COLS,DX, DY, MONSTERR, MONSTERC, NOIZE );
+
+        radar.setNoiseFraction(NOIZE);
         
         JFrame frame = new JFrame();
         
@@ -41,12 +57,14 @@ public class RadarViewer
         // after each scan, instruct the Java Run-Time to redraw the window
         for(int i = 0; i < 100; i++)
         {
-            Thread.sleep(100); // sleep 100 milliseconds (1/10 second)
+            Thread.sleep(1); // sleep 100 milliseconds (1/10 second)
             
             radar.scan();
             
             frame.repaint();
         }
+        String veloc = radar.getVelocity();
+        System.out.println(veloc);
     }
 
 }
